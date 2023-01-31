@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+  <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+  <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+
+  <include resource="org/springframework/boot/logging/logback/default.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+  <!-- В консоль -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{DD/MM/YY HH:mm:ss.SSS} | %-10.10thread | %5p | %-36.36logger{36} | %X{number}| %X{name} | %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- В файл -->
+  <property name="LOG_DIR" value="./src/main/log/application"/>
+  <appender name="FILE2" class="ch.qos.logback.core.FileAppender">
+    <file>${LOG_DIR}/tests.log</file>
+    <encoder>
+      <pattern>%d{DD/MM/YY HH:mm:ss.SSS} | %-10.10thread | %5p | %-36.36logger{36} | %X{number}| %X{name} | %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <!--  В файл с разбиением -->
+  <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_DIR}/splitted/tests.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${LOG_DIR}/splitted/sizeAndTimeBasedLogFile.%d{yyyy-MM-dd-HH-mm}.%i.log</fileNamePattern>
+      <maxHistory>10</maxHistory>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10KB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{DD/MM/YY HH:mm:ss.SSS} | %-10.10thread | %5p | %-36.36logger{36} | %X{number}| %X{name} | %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="FILE2" />
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="TIME_BASED_FILE" />
+  </root>
+
+</configuration>
