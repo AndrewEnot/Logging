@@ -11,6 +11,7 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 @Data
 public class LoggingCoffeeApplication {
+
   private final CoffeeOrderBoard coffeeOrderBoard;
 
   public static void main(String[] args) {

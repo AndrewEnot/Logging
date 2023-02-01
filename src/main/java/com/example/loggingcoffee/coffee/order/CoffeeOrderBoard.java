@@ -48,12 +48,12 @@ public class CoffeeOrderBoard {
   public void deliver(int number) {
     log.info("method`s name: deliver by number");
     try {
-    if (orders.stream()
-        .map(Order::getNumber)
-        .noneMatch(integer -> integer.equals(number))) {
-      throw new MyException("there is no order with such ID: " + number);
-    }
-    for (int i = 0; i < orders.size(); i++) {
+      if (orders.stream()
+          .map(Order::getNumber)
+          .noneMatch(integer -> integer.equals(number))) {
+        throw new MyException("there is no order with such ID: " + number);
+      }
+      for (int i = 0; i < orders.size(); i++) {
         if (number == orders.get(i).getNumber()) {
           log.info("{}#{} {}", "Order", orders.get(i).getNumber(), "is fulfilled out of sequence!");
           orders.remove(i);
